@@ -3,3 +3,9 @@ variable "organization_log_archive_account_email" {
   type        = string
   sensitive   = true
 }
+
+variable "organization_log_archive_account_id" {
+  description = "Organization Log Archive account ID"
+  type        = string
+  sensitive   = true
+}
