@@ -15,3 +15,24 @@ variable "organization_account_id" {
   type        = string
   sensitive   = true
 }
+
+variable "iam_identity_admin_user_email" {
+  description = "IAM identity admin user email"
+  type        = string
+  sensitive   = true
+}
+
+variable "iam_identity_admin_user_name" {
+  description = "IAM identity admin user name"
+  type        = string
+}
+
+variable "iam_identity_admin_user_given_name" {
+  description = "IAM identity admin user given name"
+  type        = string
+}
+
+variable "iam_identity_admin_user_family_name" {
+  description = "IAM identity admin user family name"
+  type        = string
+}
