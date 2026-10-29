@@ -42,3 +42,9 @@ variable "iam_identity_admin_user_family_name" {
   description = "IAM identity admin user family name"
   type        = string
 }
+
+variable "budget_notification_email" {
+  description = "Email address for AWS budget alerts"
+  type        = string
+  sensitive   = true
+}
