@@ -10,6 +10,12 @@ variable "organization_log_archive_account_id" {
   sensitive   = true
 }
 
+variable "organization_sandbox_account_id" {
+  description = "Organization Sandbox account ID"
+  type        = string
+  sensitive   = true
+}
+
 variable "organization_account_id" {
   description = "Organization account ID"
   type        = string
