@@ -1,13 +1,5 @@
 data "aws_ssoadmin_instances" "organization_identity_center" {}
 
-output "arn" {
-  value = tolist(data.aws_ssoadmin_instances.organization_identity_center.arns)[0]
-}
-
-output "identity_store_id" {
-  value = tolist(data.aws_ssoadmin_instances.organization_identity_center.identity_store_ids)[0]
-}
-
 resource "aws_identitystore_user" "admin_user" {
   identity_store_id = tolist(data.aws_ssoadmin_instances.organization_identity_center.identity_store_ids)[0]
 
@@ -58,5 +50,16 @@ resource "aws_ssoadmin_account_assignment" "admin_account_assignment" {
   principal_type = "GROUP"
 
   target_id   = var.organization_sandbox_account_id
+  target_type = "AWS_ACCOUNT"
+}
+
+resource "aws_ssoadmin_account_assignment" "network_account_assignment" {
+  instance_arn       = tolist(data.aws_ssoadmin_instances.organization_identity_center.arns)[0]
+  permission_set_arn = aws_ssoadmin_permission_set.admin_permission_set.arn
+
+  principal_id   = aws_identitystore_group.admin_group.group_id
+  principal_type = "GROUP"
+
+  target_id   = aws_organizations_account.network.id
   target_type = "AWS_ACCOUNT"
 }

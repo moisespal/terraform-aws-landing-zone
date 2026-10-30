@@ -4,20 +4,14 @@ variable "organization_log_archive_account_email" {
   sensitive   = true
 }
 
-variable "organization_log_archive_account_id" {
-  description = "Organization Log Archive account ID"
-  type        = string
-  sensitive   = true
-}
-
 variable "organization_sandbox_account_id" {
   description = "Organization Sandbox account ID"
   type        = string
   sensitive   = true
 }
 
-variable "organization_account_id" {
-  description = "Organization account ID"
+variable "organization_network_account_email" {
+  description = "Organization Network account email"
   type        = string
   sensitive   = true
 }
