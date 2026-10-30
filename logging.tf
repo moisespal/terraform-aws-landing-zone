@@ -7,6 +7,10 @@ resource "aws_s3_bucket" "log_archive" {
     Name        = "Log Archive"
     Environment = "Security"
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "log_archive" {

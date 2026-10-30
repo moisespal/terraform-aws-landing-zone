@@ -8,4 +8,8 @@ resource "aws_cloudtrail" "organization_trail" {
   enable_logging                = true
   include_global_service_events = true
   enable_log_file_validation    = true
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
