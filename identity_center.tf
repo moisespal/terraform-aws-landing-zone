@@ -34,12 +34,26 @@ resource "aws_ssoadmin_permission_set" "admin_permission_set" {
   instance_arn = tolist(data.aws_ssoadmin_instances.organization_identity_center.arns)[0]
 }
 
+resource "aws_ssoadmin_permission_set" "read_only_permission_set" {
+  name         = "LandingZoneReadOnlyAccess"
+  description  = "Read-only permission set"
+  instance_arn = tolist(data.aws_ssoadmin_instances.organization_identity_center.arns)[0]
+}
+
 resource "aws_ssoadmin_managed_policy_attachment" "admin_permission_set_attachment" {
-  depends_on = [aws_ssoadmin_account_assignment.admin_account_assignment]
+  depends_on = [aws_ssoadmin_account_assignment.admin_account_assignment, aws_ssoadmin_account_assignment.network_account_assignment]
 
   instance_arn       = tolist(data.aws_ssoadmin_instances.organization_identity_center.arns)[0]
   managed_policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
   permission_set_arn = aws_ssoadmin_permission_set.admin_permission_set.arn
+}
+
+resource "aws_ssoadmin_managed_policy_attachment" "read_only_permission_set_attachment" {
+  depends_on = [aws_ssoadmin_account_assignment.log_archive_account_assignment]
+
+  instance_arn       = tolist(data.aws_ssoadmin_instances.organization_identity_center.arns)[0]
+  managed_policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+  permission_set_arn = aws_ssoadmin_permission_set.read_only_permission_set.arn
 }
 
 resource "aws_ssoadmin_account_assignment" "admin_account_assignment" {
@@ -61,5 +75,16 @@ resource "aws_ssoadmin_account_assignment" "network_account_assignment" {
   principal_type = "GROUP"
 
   target_id   = aws_organizations_account.network.id
+  target_type = "AWS_ACCOUNT"
+}
+
+resource "aws_ssoadmin_account_assignment" "log_archive_account_assignment" {
+  instance_arn       = tolist(data.aws_ssoadmin_instances.organization_identity_center.arns)[0]
+  permission_set_arn = aws_ssoadmin_permission_set.read_only_permission_set.arn
+
+  principal_id   = aws_identitystore_group.admin_group.group_id
+  principal_type = "GROUP"
+
+  target_id   = aws_organizations_account.log_archive.id
   target_type = "AWS_ACCOUNT"
 }
