@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "log_archive" {
   provider         = aws.log_archive
-  bucket           = "landing-zone-cloudtrail-logs-${var.organization_log_archive_account_id}-us-east-1-an"
+  bucket           = "landing-zone-cloudtrail-logs-${aws_organizations_account.log_archive.id}-us-east-1-an"
   bucket_namespace = "account-regional"
 
   tags = {

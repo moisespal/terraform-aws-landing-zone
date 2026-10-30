@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "log_archive" {
     condition {
       test     = "StringEquals"
       variable = "aws:SourceArn"
-      values   = ["arn:aws:cloudtrail:us-east-1:${var.organization_account_id}:trail/landing-zone-organization-trail"]
+      values   = ["arn:aws:cloudtrail:us-east-1:${aws_organizations_organization.org.master_account_id}:trail/landing-zone-organization-trail"]
     }
   }
 
@@ -30,12 +30,12 @@ data "aws_iam_policy_document" "log_archive" {
       type        = "Service"
       identifiers = ["cloudtrail.amazonaws.com"]
     }
-    resources = ["${aws_s3_bucket.log_archive.arn}/AWSLogs/${var.organization_account_id}/*"]
+    resources = ["${aws_s3_bucket.log_archive.arn}/AWSLogs/${aws_organizations_organization.org.master_account_id}/*"]
 
     condition {
       test     = "StringEquals"
       variable = "aws:SourceArn"
-      values   = ["arn:aws:cloudtrail:us-east-1:${var.organization_account_id}:trail/landing-zone-organization-trail"]
+      values   = ["arn:aws:cloudtrail:us-east-1:${aws_organizations_organization.org.master_account_id}:trail/landing-zone-organization-trail"]
     }
 
     condition {
@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "log_archive" {
     condition {
       test     = "StringEquals"
       variable = "aws:SourceArn"
-      values   = ["arn:aws:cloudtrail:us-east-1:${var.organization_account_id}:trail/landing-zone-organization-trail"]
+      values   = ["arn:aws:cloudtrail:us-east-1:${aws_organizations_organization.org.master_account_id}:trail/landing-zone-organization-trail"]
     }
 
     condition {
