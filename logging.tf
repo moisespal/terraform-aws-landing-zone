@@ -18,3 +18,24 @@ resource "aws_s3_bucket_public_access_block" "log_archive" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+resource "aws_s3_bucket_versioning" "log_archive" {
+  provider = aws.log_archive
+  bucket   = aws_s3_bucket.log_archive.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_object_lock_configuration" "log_archive" {
+  provider = aws.log_archive
+  bucket   = aws_s3_bucket.log_archive.id
+
+  rule {
+    default_retention {
+      mode = "GOVERNANCE"
+      days = 1
+    }
+  }
+}
