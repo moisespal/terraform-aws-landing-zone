@@ -9,3 +9,11 @@ provider "aws" {
     role_arn = "arn:aws:iam::${aws_organizations_account.log_archive.id}:role/OrganizationAccountAccessRole"
   }
 }
+
+provider "aws" {
+  alias  = "network"
+  region = "us-east-1"
+  assume_role {
+    role_arn = "arn:aws:iam::${aws_organizations_account.network.id}:role/OrganizationAccountAccessRole"
+  }
+}
